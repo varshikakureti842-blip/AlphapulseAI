@@ -1,0 +1,6 @@
+{
+  "name": "AlphaPulse AI — Stock Analysis & Paper Trading",
+  "description": "Modern AI-powered stock market technical analysis and virtual paper-trading simulation platform with risk management and Gemini insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
