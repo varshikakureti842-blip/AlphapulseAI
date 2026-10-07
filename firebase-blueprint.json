@@ -1,0 +1,206 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Information about a registered paper trader",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Unique user ID matching Firebase Auth UID"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Trader display name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Trader email address"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Profile last update timestamp"
+        }
+      },
+      "required": [
+        "uid",
+        "displayName",
+        "email",
+        "createdAt"
+      ]
+    },
+    "Portfolio": {
+      "title": "Virtual Portfolio",
+      "description": "User cash balance and summary metrics",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID"
+        },
+        "cash": {
+          "type": "number",
+          "description": "Available virtual cash balance in USD"
+        },
+        "portfolioValue": {
+          "type": "number",
+          "description": "Total virtual portfolio equity value in USD"
+        },
+        "totalPnL": {
+          "type": "number",
+          "description": "Total unrealized plus realized P&L in USD"
+        },
+        "totalPnLPercent": {
+          "type": "number",
+          "description": "Total portfolio performance percentage"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last metric calculation timestamp"
+        }
+      },
+      "required": [
+        "userId",
+        "cash",
+        "portfolioValue",
+        "totalPnL",
+        "totalPnLPercent",
+        "updatedAt"
+      ]
+    },
+    "Position": {
+      "title": "Portfolio Position",
+      "description": "Open stock holding in the virtual portfolio",
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol"
+        },
+        "shares": {
+          "type": "number",
+          "description": "Number of shares owned"
+        },
+        "avgPrice": {
+          "type": "number",
+          "description": "Average acquisition price per share"
+        },
+        "currentPrice": {
+          "type": "number",
+          "description": "Most recent price quote"
+        },
+        "marketValue": {
+          "type": "number",
+          "description": "Total position market value"
+        },
+        "unrealizedPnL": {
+          "type": "number",
+          "description": "Position profit or loss in USD"
+        },
+        "unrealizedPnLPercent": {
+          "type": "number",
+          "description": "Position profit or loss percentage"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last price update timestamp"
+        }
+      },
+      "required": [
+        "symbol",
+        "shares",
+        "avgPrice",
+        "currentPrice",
+        "marketValue",
+        "unrealizedPnL",
+        "unrealizedPnLPercent",
+        "updatedAt"
+      ]
+    },
+    "Trade": {
+      "title": "Executed Trade Transaction",
+      "description": "Recorded paper trade order execution",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique trade ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Trader user ID"
+        },
+        "symbol": {
+          "type": "string",
+          "description": "Traded stock ticker symbol"
+        },
+        "side": {
+          "type": "string",
+          "enum": [
+            "BUY",
+            "SELL"
+          ],
+          "description": "Order execution direction"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Executed share quantity"
+        },
+        "price": {
+          "type": "number",
+          "description": "Execution price per share"
+        },
+        "total": {
+          "type": "number",
+          "description": "Total transaction amount in USD"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Trade execution timestamp"
+        },
+        "pnl": {
+          "type": "number",
+          "description": "Realized profit or loss for SELL orders"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "symbol",
+        "side",
+        "quantity",
+        "price",
+        "total",
+        "timestamp"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document"
+    },
+    "/users/{userId}/portfolio/data": {
+      "schema": "Portfolio",
+      "description": "User portfolio metrics document"
+    },
+    "/users/{userId}/positions/{positionId}": {
+      "schema": "Position",
+      "description": "User open positions subcollection"
+    },
+    "/users/{userId}/trades/{tradeId}": {
+      "schema": "Trade",
+      "description": "User trade execution history subcollection"
+    }
+  }
+}
